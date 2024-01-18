@@ -28,8 +28,7 @@ def save_data():
 
 @app.route('/')
 def home():
-    return 'Witaj! To jest strona główna aplikacji.'
-
+    return redirect(url_for('login'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
