@@ -4,7 +4,7 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash, check_password_hash
 import calendar
 import datetime
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static")
 app.secret_key = "klucz_tajny"
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'

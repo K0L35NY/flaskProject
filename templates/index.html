@@ -6,141 +6,143 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BetterToDo</title>
     <style>
+        @font-face {
+            font-family: 'SFR';
+            src: url('../static/fonts/SF-Pro-Display-Regular.otf') format('opentype');
+        }
 
-    @font-face {
-        font-family: 'SFR';
-        src: url('fonts/SF-Pro-Display-Regular.otf') format('opentype');
-    }
+        #date {
+            font-family: 'SFR', sans-serif;
+            font-size: 50pt;
+        }
 
-    #date {
-        font-family: 'SFR', sans-serif;
-        font-size: 50pt;
-    }
+        .formatted-date {
+            font-weight: 700;
+        }
 
-    .formatted-date {
-        font-weight: 700;
-    }
+        .current-year {
+            font-weight: 100;
+            color: #4d4d4d
+        }
 
-    .current-year {
-        font-weight: 100;
-        color: #4d4d4d
-    }
+        body {
+            margin: 0;
+            font-family: 'SFP', sans-serif;
+        }
 
-    body {
-        margin: 0;
-        font-family: 'SFP', sans-serif;
-    }
+        #top-bar {
+            color: black;
+            text-align: left;
+            margin: 20px 20px 0px 20px;
+        }
 
-    #top-bar {
-        color: black;
-        text-align: left;
-        margin: 20px 20px 0px 20px;
-    }
+        #account {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
 
-    #account {
-        position:absolute;
-        top:20px;
-        right: 20px;
-    }
-    .username {
-        margin-right: 10px;
-    }
+        .username {
+            margin-right: 10px;
+        }
 
-    .logout-button {
-        text-decoration: none;
-        background-color: #28a745; /* Green background color */
-        color: #fff; /* White text color */
-        border: none;
-        padding: 8px 16px;
-        border-radius: 8px; /* Rounded corners */
-        cursor: pointer;
-    }
+        .logout-button {
+            text-decoration: none;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
 
-    #calendar {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        text-align: right;
-    }
+        #calendar {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            text-align: right;
+        }
 
-    .name .weekend {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        padding: 5px;
-        font-weight: 500;
-    }
+        .name .weekend {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            padding: 5px;
+            font-weight: 500;
+        }
 
-    .weekend {
-        font-weight: 100;
-        color: #4d4d4d;
-    }
+        .weekend {
+            font-weight: 100;
+            color: #4d4d4d;
+        }
 
-    #weekdays {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 1px;
-        margin: 20px 20px -10px 20px;
-        text-align: center;
-    }
+        #weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            margin: 20px 20px -10px 20px;
+            text-align: center;
+        }
 
-    #month-view {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 1px;
-        margin: 20px;
-        border-left: 1px solid #ddd;
-        border-top: 1px solid #ddd;
-    }
+        #month-view {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            margin: 20px;
+            border-left: 1px solid #ddd;
+            border-top: 1px solid #ddd;
+        }
 
-    .day, .current-day {
-        width: 100%;
-        padding: 10px;
-        cursor: pointer;
-        box-sizing: border-box; /* Include padding in the total width and height */
-        position: relative;
-        border-right: 1px solid #ddd;
-        border-bottom: 1px solid #ddd;
-    }
+        .day,
+        .current-day {
+            width: 100%;
+            padding: 10px;
+            cursor: pointer;
+            box-sizing: border-box;
+            position: relative;
+            border-right: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+        }
 
-    .day .day-text, .current-day .day-text {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        text-align: right;
-        line-height: 1.5;
-    }
+        .day .day-text,
+        .current-day .day-text {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            text-align: right;
+            line-height: 1.5;
+        }
 
-    .current-day {
-        background-color: #ffc299;
-        height: 0;
-        padding-bottom: 100%;
-        position: relative;
-        font-weight: 500;
-    }
+        .current-day {
+            background-color: #ffc299;
+            height: 0;
+            padding-bottom: 100%;
+            position: relative;
+            font-weight: 500;
+        }
 
-    #month-view .day:nth-child(6),
-    #month-view .day:nth-child(7),
-    #month-view .day:nth-child(13),
-    #month-view .day:nth-child(14),
-    #month-view .day:nth-child(20),
-    #month-view .day:nth-child(21),
-    #month-view .day:nth-child(27),
-    #month-view .day:nth-child(28),
-    #month-view .day:nth-child(34),
-    #month-view .day:nth-child(35){
-        background-color: #f2f2f2;
-        color: #404040;
-    }
+        #month-view .day:nth-child(6),
+        #month-view .day:nth-child(7),
+        #month-view .day:nth-child(13),
+        #month-view .day:nth-child(14),
+        #month-view .day:nth-child(20),
+        #month-view .day:nth-child(21),
+        #month-view .day:nth-child(27),
+        #month-view .day:nth-child(28),
+        #month-view .day:nth-child(34),
+        #month-view .day:nth-child(35) {
+            background-color: #f2f2f2;
+            color: #404040;
+        }
 
-    .calendar-grid {
-        border: 2px solid #333; /* Adjust the color and thickness as needed */
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 5px;
-        margin: 20px;
-    }
+        .calendar-grid {
+            border: 2px solid #333;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin: 20px;
+        }
 
-    #habit-tracker {
+        #habit-tracker {
             width: 100%;
             max-width: 800px;
             margin: 20px auto;
@@ -149,14 +151,68 @@
             border: 1px solid #ddd;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+        }
 
-    #habit-tracker h2 {
+        #habit-tracker h2 {
             color: #333;
             font-size: 24px;
             margin-bottom: 10px;
-    }
+        }
 
+        .tracker-container {
+            width: 80%;
+            margin: 40px auto;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        header h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .habit-tracker {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .habit-tracker thead th {
+            background-color: #f9f9f9;
+            color: #333;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .habit-tracker th,
+        .habit-tracker td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        input[type="checkbox"] {
+            cursor: pointer;
+        }
+
+        .habit-tracker td {
+            text-align: center;
+        }
+
+        .progress {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: #eff8eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #4CAF50;
+            margin: auto;
+        }
     </style>
 </head>
 
@@ -164,14 +220,14 @@
 
     <div id="top-bar">
         <div id="date">
-        <span class="formatted-date">{{ formatted_date }}</span>
-        <span class="current-year">{{ current_year }}</span>
+            <span class="formatted-date">{{ formatted_date }}</span>
+            <span class="current-year">{{ current_year }}</span>
         </div>
         <div id="account">
-        {% if username %}
+            {% if username %}
             <span class="username">Welcome, {{ username }}!</span>
             <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
-        {% endif %}
+            {% endif %}
         </div>
     </div>
 
@@ -187,18 +243,18 @@
         </div>
         <div id="month-view">
             {% for week in calendar_data.days_in_month %}
-                {% for day in week %}
-                        {% if day %}
-                            {% if day == calendar_data.current_day %}
-                                <div class="day current-day">{{ day }}</div>
-                            {% else %}
-                                <div class="day">{{ day }}</div>
-                            {% endif %}
-                        {% else %}
-                            <div class="day"></div>
-                        {% endif %}
-                    {% endfor %}
-                {% endfor %}
+            {% for day in week %}
+            {% if day %}
+            {% if day == calendar_data.current_day %}
+            <div class="day current-day">{{ day }}</div>
+            {% else %}
+            <div class="day">{{ day }}</div>
+            {% endif %}
+            {% else %}
+            <div class="day"></div>
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
         </div>
     </div>
 
@@ -206,11 +262,67 @@
         <h2>Habit Tracker</h2>
         <p>Placeholder pod habit tracker. Trzeba zrobić tabelkę miesięczną, sposób dodawania habitów, check boxy itd.</p>
     </div>
+    <div class="tracker-container">
+        <header>
+            <h1>Week 01</h1>
+        </header>
+        <table class="habit-tracker">
+            <thead>
+                <tr>
+                    <th>Habit</th>
+                    <th>Goal</th>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                    <th>Sun</th>
+                    <th>Progress</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Exercise</td>
+                    <td>5 days/week</td>
+                    <td><input type="checkbox" class="exercise" ></td>
+                    <td><input type="checkbox" class="exercise" ></td>
+                    <td><input type="checkbox" class="exercise" ></td>
+                    <td><input type="checkbox" class="exercise" ></td>
+                    <td><input type="checkbox" class="exercise"></td>
+                    <td><input type="checkbox" class="exercise"></td>
+                    <td><input type="checkbox" class="exercise"></td>
+                    <td class="progress exercise-progress">0%</td>
+                </tr>
+                <tr>
+                    <td>Read</td>
+                    <td>3 days/week</td>
+                    <td><input type="checkbox" class="read"></td>
+                    <td><input type="checkbox" class="read" ></td>
+                    <td><input type="checkbox" class="read"></td>
+                    <td><input type="checkbox" class="read" ></td>
+                    <td><input type="checkbox" class="read"></td>
+                    <td><input type="checkbox" class="read"></td>
+                    <td><input type="checkbox" class="read" ></td>
+                    <td class="progress read-progress">0%</td>
+                </tr>
+                <tr>
+                    <td>Meditate</td>
+                    <td>6 days/week</td>
+                    <td><input type="checkbox" class="meditate" ></td>
+                    <td><input type="checkbox" class="meditate" ></td>
+                    <td><input type="checkbox" class="meditate" ></td>
+                    <td><input type="checkbox" class="meditate" ></td>
+                    <td><input type="checkbox" class="meditate" ></td>
+                    <td><input type="checkbox" class="meditate" ></td>
+                    <td><input type="checkbox" class="meditate"></td>
+                    <td class="progress meditate-progress">0%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-    <script>
-
-    </script>
-
+    <script src="../static/script.js"></script>
 </body>
 
 </html>
