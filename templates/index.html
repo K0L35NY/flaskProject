@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BetterToDo</title>
+    <style>
+
+    @font-face {
+        font-family: 'SFR';
+        src: url('fonts/SF-Pro-Display-Regular.otf') format('opentype');
+    }
+
+    #date {
+        font-family: 'SFR', sans-serif;
+        font-size: 50pt;
+    }
+
+    .formatted-date {
+        font-weight: 700;
+    }
+
+    .current-year {
+        font-weight: 100;
+        color: #4d4d4d
+    }
+
+    body {
+        margin: 0;
+        font-family: 'SFP', sans-serif;
+    }
+
+    #top-bar {
+        color: black;
+        text-align: left;
+        margin: 20px 20px 0px 20px;
+    }
+
+    #account {
+        position:absolute;
+        top:20px;
+        right: 20px;
+    }
+    .username {
+        margin-right: 10px;
+    }
+
+    .logout-button {
+        text-decoration: none;
+        background-color: #28a745; /* Green background color */
+        color: #fff; /* White text color */
+        border: none;
+        padding: 8px 16px;
+        border-radius: 8px; /* Rounded corners */
+        cursor: pointer;
+    }
+
+    #calendar {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        text-align: right;
+    }
+
+    .name .weekend {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        padding: 5px;
+        font-weight: 500;
+    }
+
+    .weekend {
+        font-weight: 100;
+        color: #4d4d4d;
+    }
+
+    #weekdays {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 1px;
+        margin: 20px 20px -10px 20px;
+        text-align: center;
+    }
+
+    #month-view {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 1px;
+        margin: 20px;
+        border-left: 1px solid #ddd;
+        border-top: 1px solid #ddd;
+    }
+
+    .day, .current-day {
+        width: 100%;
+        padding: 10px;
+        cursor: pointer;
+        box-sizing: border-box; /* Include padding in the total width and height */
+        position: relative;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .day .day-text, .current-day .day-text {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        text-align: right;
+        line-height: 1.5;
+    }
+
+    .current-day {
+        background-color: #ffc299;
+        height: 0;
+        padding-bottom: 100%;
+        position: relative;
+        font-weight: 500;
+    }
+
+    #month-view .day:nth-child(6),
+    #month-view .day:nth-child(7),
+    #month-view .day:nth-child(13),
+    #month-view .day:nth-child(14),
+    #month-view .day:nth-child(20),
+    #month-view .day:nth-child(21),
+    #month-view .day:nth-child(27),
+    #month-view .day:nth-child(28),
+    #month-view .day:nth-child(34),
+    #month-view .day:nth-child(35){
+        background-color: #f2f2f2;
+        color: #404040;
+    }
+
+    .calendar-grid {
+        border: 2px solid #333; /* Adjust the color and thickness as needed */
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 5px;
+        margin: 20px;
+    }
+
+    #habit-tracker {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #habit-tracker h2 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 10px;
+    }
+
+    </style>
+</head>
+
+<body>
+
+    <div id="top-bar">
+        <div id="date">
+        <span class="formatted-date">{{ formatted_date }}</span>
+        <span class="current-year">{{ current_year }}</span>
+        </div>
+        <div id="account">
+        {% if username %}
+            <span class="username">Welcome, {{ username }}!</span>
+            <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
+        {% endif %}
+        </div>
+    </div>
+
+    <div id="calendar">
+        <div id="weekdays">
+            <div class="name">Mon</div>
+            <div class="name">Tue</div>
+            <div class="name">Wed</div>
+            <div class="name">Thu</div>
+            <div class="name">Fri</div>
+            <div class="weekend">Sat</div>
+            <div class="weekend">Sun</div>
+        </div>
+        <div id="month-view">
+            {% for week in calendar_data.days_in_month %}
+                {% for day in week %}
+                        {% if day %}
+                            {% if day == calendar_data.current_day %}
+                                <div class="day current-day">{{ day }}</div>
+                            {% else %}
+                                <div class="day">{{ day }}</div>
+                            {% endif %}
+                        {% else %}
+                            <div class="day"></div>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+        </div>
+    </div>
+
+    <div id="habit-tracker">
+        <h2>Habit Tracker</h2>
+        <p>Placeholder pod habit tracker. Trzeba zrobić tabelkę miesięczną, sposób dodawania habitów, check boxy itd.</p>
+    </div>
+
+    <script>
+
+    </script>
+
+</body>
+
+</html>
