@@ -266,8 +266,8 @@ def get_habit_data():
 
 @app.route('/add_task', methods=['POST'])
 def add_task():
-    user_id = session['user_id']  # Get the user ID from the session
-    user = User.query.get(user_id)  # Retrieve the user from the database
+    user_id = session['user_id']
+    user = User.query.get(user_id)
 
     task = Task(title=request.form['title'], description=request.form['description'], day=request.form['day'], user=user)
     db.session.add(task)
