@@ -61,9 +61,8 @@
         <input type="date" name="day">
         <input type="submit" value="Add Task">
     </form>
-    <h2>Taski do edytowiania i usuwania, fajnie by było to zrobić że jest przycisk obok taska, żeby go albo zedytować
-        albo usunąć. Fajnie jakby edytowanie było by w innej stronie albo w jakims pop-upie. A gdy w liście dzisiejszych
-        i pozostałych tasków nie ma nic, to fajnie jakbyście zrobili jakis napis, że nic do roboty czy cos :)</h2>
+    <h2>Tu na dole są taski do edytowiania i usuwania, fajnie by było to zrobić że jest przycisk obok taska, żeby go
+        albo zedytować albo usunąć. Fajnie jakby edytowanie było by w innej stronie albo w jakims pop-upie. </h2>
     {% for task in tasks %}
 
     <div>
@@ -80,6 +79,8 @@
     </div>
     {% endfor %}
 
+    <h2>To jest lista tasków taka żeby była ładna. Gdy w liście dzisiejszych i pozostałych tasków nie ma nic, to
+        fajnie jakbyście zrobili jakis napis, że nic do roboty czy cos :)</h2>
     <h2>Today's Tasks</h2>
         {% for task in tasks_today %}
             <p>{{ task.title }}</p>
