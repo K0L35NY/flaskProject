@@ -1,0 +1,97 @@
+html {
+    height: 100%;
+    overflow: hidden; /* Hide scrollbars */
+  }
+  body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    font-family: 'Helvetica Neue', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    overflow: hidden; /* Hide scrollbars */
+  }
+
+  @keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Container for the form */
+  .container {
+    width: 40%;
+    min-width: 500px;
+    max-width: 100%; /* Prevents the container from being wider than the screen */
+    padding: 50px;
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    z-index: 2;
+  }
+
+  /* Styles for form elements */
+  h2 {
+    margin-bottom: 1em;
+    color: #333;
+    text-align: center;
+  }
+
+  .form-group {
+    margin-bottom: 1em;
+  }
+
+  .form-control {
+    height: 50px;
+    border-radius: 5px;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    font-size: 18px;
+    width: 100%; /* Ensures input fields do not cause overflow */
+    box-sizing: border-box; /* Ensures padding doesn't add to the width */
+  }
+
+  .btn-primary {
+    height: 50px;
+    padding: 0 15px;
+    border-radius: 5px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    font-size: 18px;
+    width: 100%; /* Ensures button does not cause overflow */
+  }
+
+  .btn-link {
+    display: block;
+    margin-top: 1em;
+    text-align: center;
+    color: #007bff;
+    text-decoration: none;
+  }
+
+  .btn-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+  }
+
+  /* Responsive adjustments for smaller screens */
+  @media (max-width: 768px) {
+    .container {
+      width: 60%;
+      padding: 30px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .container {
+      width: 80%;
+      padding: 20px;
+    }
+  }

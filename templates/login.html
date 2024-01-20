@@ -2,7 +2,8 @@
 <html>
 <head>
     <title>Login</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="../static/style_login.css">
 </head>
 <body>
     {% with messages = get_flashed_messages() %}
@@ -12,7 +13,7 @@
             </script>
         {% endif %}
     {% endwith %}
-    <div class="container">
+    <div id="particles-js" class="container">
         <div class="row justify-content-center">
             <div class="col-6">
                 <h2 class="text-center">Login</h2>
@@ -33,6 +34,9 @@
             </div>
         </div>
     </div>
+
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
 </body>
 </html>
