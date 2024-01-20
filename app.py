@@ -77,6 +77,18 @@ class HabitLog(db.Model):
     log_date = db.Column(db.Date, nullable=False)
     checked = db.Column(db.Boolean, nullable=False)
     progress = db.Column(db.Integer, nullable=False)
+
+
+class Task(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(80), nullable=False)
+    description = db.Column(db.String(200), nullable=False)
+    day = db.Column(db.String(20), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user = db.relationship('User', backref=db.backref('tasks', lazy=True))
+
+
+
 @app.route('/')
 def home():
     if 'user_id' not in session:
@@ -115,9 +127,17 @@ def home():
         current_year = f"{now.strftime('%Y')}"
         checkbox_states = get_checkbox_states(user.id)
 
-        return render_template('index.html', user=user, calendar_data=calendar_data, formatted_date=formatted_date,
-                               current_year=current_year, username=user.username, habits=habits,
-                               habit_tracking_data=habit_tracking_data, checkbox_states=checkbox_states)
+
+        # Relevant things
+        tasks = Task.query.filter_by(user_id=user.id).all()
+        today = datetime.datetime.today().date()
+        tasks_today = Task.query.filter_by(user_id=user.id, day=today).all()
+        tasks_remaining = Task.query.filter(Task.user_id == user.id, Task.day > today).all()
+
+        return render_template('index.html', user=user, calendar_data=calendar_data,
+                               formatted_date=formatted_date, current_year=current_year, username=user.username,
+                               habits=habits, habit_tracking_data=habit_tracking_data, checkbox_states=checkbox_states,
+                               tasks=tasks, tasks_today=tasks_today, tasks_remaining=tasks_remaining)
     else:
         # Invalid session, redirect to login
         return redirect(url_for('login'))
@@ -243,6 +263,32 @@ def get_habit_data():
         return jsonify({'progress': progress})
     else:
         return jsonify({'error': 'Habit not found'}), 404
+
+@app.route('/add_task', methods=['POST'])
+def add_task():
+    user_id = session['user_id']  # Get the user ID from the session
+    user = User.query.get(user_id)  # Retrieve the user from the database
+
+    task = Task(title=request.form['title'], description=request.form['description'], day=request.form['day'], user=user)
+    db.session.add(task)
+    db.session.commit()
+    return redirect(url_for('home'))
+
+@app.route('/edit_task/<int:id>', methods=['POST'])
+def edit_task(id):
+    task = Task.query.get(id)
+    task.title = request.form['title']
+    task.description = request.form['description']
+    task.day = request.form['day']
+    db.session.commit()
+    return redirect(url_for('home'))
+
+@app.route('/delete_task/<int:id>')
+def delete_task(id):
+    task = Task.query.get(id)
+    db.session.delete(task)
+    db.session.commit()
+    return redirect(url_for('home'))
 
 if __name__ == "__main__":
     app.run(port=8000, debug=True)
