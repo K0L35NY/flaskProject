@@ -53,68 +53,60 @@
         </div>
     </div>
 
-    <div id="habit-tracker">
-        <h2>Habit Tracker</h2>
-        <p>Placeholder pod habit tracker. Trzeba zrobić tabelkę miesięczną, sposób dodawania habitów, check boxy itd.</p>
-    </div>
     <div class="tracker-container">
         <header>
-            <h1>Week 01</h1>
+            <h1>Track your 1st week</h1>
+            <button class="addHabitButton">Add Habit</button>
         </header>
         <table class="habit-tracker">
             <thead>
-                <tr>
-                    <th>Habit</th>
-                    <th>Goal</th>
-                    <th>Mon</th>
-                    <th>Tue</th>
-                    <th>Wed</th>
-                    <th>Thu</th>
-                    <th>Fri</th>
-                    <th>Sat</th>
-                    <th>Sun</th>
-                    <th>Progress</th>
-                </tr>
+              <tr>
+                <th>Habit</th>
+                <th>Goal</th>
+                {% for day in ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] %}
+                  <th>{{ day }}</th>
+                {% endfor %}
+                <th>Progress</th>
+              </tr>
             </thead>
             <tbody>
+              {% for habit in habits %}
                 <tr>
-                    <td>Exercise</td>
-                    <td>5 days/week</td>
-                    <td><input type="checkbox" class="exercise" ></td>
-                    <td><input type="checkbox" class="exercise" ></td>
-                    <td><input type="checkbox" class="exercise" ></td>
-                    <td><input type="checkbox" class="exercise" ></td>
-                    <td><input type="checkbox" class="exercise"></td>
-                    <td><input type="checkbox" class="exercise"></td>
-                    <td><input type="checkbox" class="exercise"></td>
-                    <td class="progress exercise-progress">0%</td>
-                </tr>
-                <tr>
-                    <td>Read</td>
-                    <td>3 days/week</td>
-                    <td><input type="checkbox" class="read"></td>
-                    <td><input type="checkbox" class="read" ></td>
-                    <td><input type="checkbox" class="read"></td>
-                    <td><input type="checkbox" class="read" ></td>
-                    <td><input type="checkbox" class="read"></td>
-                    <td><input type="checkbox" class="read"></td>
-                    <td><input type="checkbox" class="read" ></td>
-                    <td class="progress read-progress">0%</td>
-                </tr>
-                <tr>
-                    <td>Meditate</td>
-                    <td>6 days/week</td>
-                    <td><input type="checkbox" class="meditate" ></td>
-                    <td><input type="checkbox" class="meditate" ></td>
-                    <td><input type="checkbox" class="meditate" ></td>
-                    <td><input type="checkbox" class="meditate" ></td>
-                    <td><input type="checkbox" class="meditate" ></td>
-                    <td><input type="checkbox" class="meditate" ></td>
-                    <td><input type="checkbox" class="meditate"></td>
-                    <td class="progress meditate-progress">0%</td>
+                    <td>{{ habit.habit_name }}</td>
+                    <td>{{ habit.goal_days }} days/week</td>
+                    {% for day in ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] %}
+                        {% set log = habit_tracking_data[habit.id]['logs'].get(loop.index, 0) %}
+                        <td>
+                           <input
+                               type="checkbox"
+                               data-habit-id="{{ habit.id }}"
+                               data-day-index="{{ loop.index }}"
+                               {% if (habit.id, loop.index) in checkbox_states and checkbox_states[(habit.id, loop.index)] %}checked{% endif %}
+                           >
+                        </td>
+                    {% endfor %}
+                    <td class="progress habit-{{ habit.id }}-progress">{{ habit_tracking_data[habit.id]['logs']|length / habit.goal_days * 100 }}%</td>
                 </tr>
             </tbody>
+          {% endfor %}
         </table>
+    </div>
+
+    <div id="addHabitModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <form action="{{ url_for('add_habit') }}" method="post">
+          <label for="habit_name">Habit Name:</label>
+          <input type="text" id="habit_name" name="habit_name" required>
+          <label for="goal_days">Goal Days:</label>
+          <select id="goal_days" name="goal_days" required>
+            {% for i in range(1, 8) %}
+              <option value="{{ i }}">{{ i }} days/week</option>
+            {% endfor %}
+          </select>
+          <input type="submit" value="Add Habit">
+        </form>
+      </div>
     </div>
 
     <script src="../static/script.js"></script>
