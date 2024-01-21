@@ -348,9 +348,8 @@
             border: none;
             width: 40%;
             border-radius: 8px;
-            /* Add these properties */
-            height: 500px; /* Adjust as needed */
-            overflow-y: auto; /* Will add a scrollbar if necessary */
+            height: 500px;
+            overflow-y: auto;
         }
         .t-tasks {
             margin-right: 3%;
