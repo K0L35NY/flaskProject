@@ -290,5 +290,16 @@ def delete_task(id):
     db.session.commit()
     return redirect(url_for('home'))
 
+@app.route('/delete_habit/<int:habit_id>', methods=['POST'])
+def delete_habit(habit_id):
+    habit = Habit.query.get(habit_id)
+    if habit:
+        HabitLog.query.filter_by(habit_id=habit.id).delete()
+        db.session.delete(habit)
+        db.session.commit()
+    return redirect(url_for('home'))
+
+
+
 if __name__ == "__main__":
     app.run(port=8000, debug=True)
