@@ -53,46 +53,56 @@
         </div>
     </div>
 
-    <h1>ToDo App</h1>
-
-    <form method="POST" action="/add_task">
-        <input type="text" name="title" placeholder="Title">
-        <input type="text" name="description" placeholder="Description">
-        <input type="date" name="day">
-        <input type="submit" value="Add Task">
-    </form>
-    <h2>Tu na dole są taski do edytowiania i usuwania, fajnie by było to zrobić że jest przycisk obok taska, żeby go
-        albo zedytować albo usunąć. Fajnie jakby edytowanie było by w innej stronie albo w jakims pop-upie. </h2>
-    {% for task in tasks %}
-
-    <div>
-        <h2>{{ task.title }}</h2>
-        <p>{{ task.description }}</p>
-        <p>{{ task.day }}</p>
-        <form method="POST" action="/edit_task/{{ task.id }}">
-            <input type="text" name="title" value="{{ task.title }}">
-            <input type="text" name="description" value="{{ task.description }}">
-            <input type="text" name="day" value="{{ task.day }}">
-            <input type="submit" value="Edit Task">
+    <div class="to-do">
+        <div class="to-do-head">
+            <h1>ToDo App</h1>
+        </div>
+        <form method="POST" action="/add_task">
+            <input type="text" name="title" placeholder="Title" class="field">
+            <input type="text" name="description" placeholder="Description" class="field">
+            <input type="date" name="day" class="field">
+            <input type="submit" value="Add Task" class="field">
         </form>
-        <a href="/delete_task/{{ task.id }}">Delete</a>
+
+        {#  Error message if the fields are not filled   #}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
     </div>
-    {% endfor %}
 
-    <h2>To jest lista tasków taka żeby była ładna. Gdy w liście dzisiejszych i pozostałych tasków nie ma nic, to
-        fajnie jakbyście zrobili jakis napis, że nic do roboty czy cos :)</h2>
-    <h2>Today's Tasks</h2>
-        {% for task in tasks_today %}
-            <p>{{ task.title }}</p>
-            <p>{{ task.description }}</p>
-        {% endfor %}
-
-    <h2>Remaining Tasks</h2>
-        {% for task in tasks_remaining %}
-            <p>{{ task.day }}</p>
-            <p>{{ task.title }}</p>
-            <p>{{ task.description }}</p>
-        {% endfor %}
+    <div class="task-container">
+        <div class="t-tasks">
+            <div class="t-tasks-header">
+                <h2>Today's Tasks</h2>
+            </div>
+            {% for task in tasks_today %}
+                <div class="tasks">
+                    <p class="task-title">{{ task.title }}</p>
+                    <p class="task-d">{{ task.description }}</p>
+                    <button type="button" class="tasks-button">Edit task</button>
+                    <button type="button" class="tasks-button" onclick="location.href='/delete_task/{{ task.id }}'">Delete</button>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="r-tasks">
+            <div class="r-tasks-header">
+                <h2>Remaining Tasks</h2>
+            </div>
+            {% for task in tasks_remaining %}
+                <div class="tasks">
+                    <p class="task-day">{{ task.day }}</p>
+                    <p class="task-title">{{ task.title }} </p>
+                    <p class="task-d">{{ task.description }}</p>
+                    <button type="button" class="tasks-button">Edit task</button>
+                    <button type="button" class="tasks-button" onclick="location.href='/delete_task/{{ task.id }}'">Delete</button>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 
     <div class="tracker-container">
         <header>

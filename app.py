@@ -269,6 +269,14 @@ def add_task():
     user_id = session['user_id']
     user = User.query.get(user_id)
 
+    title = request.form['title']
+    description = request.form['description']
+    day = request.form['day']
+
+    if not title or not description or not day:
+        flash('*You need to fill all the fields', 'error')
+        return redirect(url_for('home'))
+
     task = Task(title=request.form['title'], description=request.form['description'], day=request.form['day'], user=user)
     db.session.add(task)
     db.session.commit()
@@ -277,9 +285,21 @@ def add_task():
 @app.route('/edit_task/<int:id>', methods=['POST'])
 def edit_task(id):
     task = Task.query.get(id)
+
     task.title = request.form['title']
     task.description = request.form['description']
     task.day = request.form['day']
+
+    title = task.title
+    description = task.description
+    day = task.day
+
+    if not title or not description or not day:
+        flash('*You need to fill all the fields', 'error')
+        return redirect(url_for('home'))
+
+
+
     db.session.commit()
     return redirect(url_for('home'))
 
