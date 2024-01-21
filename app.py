@@ -77,6 +77,9 @@ class HabitLog(db.Model):
     log_date = db.Column(db.Date, nullable=False)
     checked = db.Column(db.Boolean, nullable=False)
     progress = db.Column(db.Integer, nullable=False)
+
+with app.app_context():
+    db.create_all()
 @app.route('/')
 def home():
     if 'user_id' not in session:
