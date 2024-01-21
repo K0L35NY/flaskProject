@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+
     const checkboxes = document.querySelectorAll(".habit-tracker input[type='checkbox']");
     checkboxes.forEach((checkbox) => {
         checkbox.addEventListener("change", updateCheckboxState);
@@ -16,26 +17,29 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
                 console.log(data);
                 // After updating the server, fetch updated habit data and update progress
-                fetchAndUpdateProgress(habitId);
+                console.log('checkbox state updated')
+                updateProgress(habitId);
             })
             .catch(error => {
                 console.error('Error updating checkbox state:', error);
             });
     }
 
-    function fetchAndUpdateProgress(habitId) {
-        // Fetch updated habit data for the specific habit
-        fetch(`/get_habit_data?habit_id=${habitId}`)
-            .then(response => response.json())
-            .then(habitData => {
-                // Update the progress element
-                const progressElement = document.querySelector(`.habit-${habitId}-progress`);
-                progressElement.textContent = `${habitData.progress}%`;
-            })
-            .catch(error => {
-                console.error('Error fetching habit data:', error);
-            });
+    function updateProgress(habitId) {
+        const checkboxes = document.querySelectorAll(`input[data-habit-id='${habitId}']`);
+        const totalCheckboxes = checkboxes.length;
+        const checkedCheckboxes = Array.from(checkboxes).filter(checkbox => checkbox.checked);
+        const numChecked = checkedCheckboxes.length;
+        const progress = (numChecked / totalCheckboxes) * 100;
+        const progressElement = document.querySelector(`.habit-${habitId}-progress`);
+        progressElement.textContent = `${progress.toFixed(0)}%`;
     }
+
+    // Get all unique habit IDs from the checkboxes
+    const habitIds = Array.from(new Set(Array.from(checkboxes).map(checkbox => checkbox.dataset.habitId)));
+
+    // Call updateProgress for each habit ID
+    habitIds.forEach(habitId => updateProgress(habitId));
 
     var addHabitButton = document.querySelector(".addHabitButton");
     var habitModal = document.getElementById("addHabitModal");
@@ -55,5 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    fetchAndUpdateProgress();  // Initial update when the page loads
+
+    updateProgress();
+
 });

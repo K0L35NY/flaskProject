@@ -123,8 +123,21 @@
             <tbody>
               {% for habit in habits %}
                 <tr>
-                    <td>{{ habit.habit_name }}</td>
-                    <td>{{ habit.goal_days }} days/week</td>
+                    <td>
+                        <table class="nested-table">
+                            <tr>
+                                <td class="nested-td">
+                                    <form action="{{ url_for('delete_habit', habit_id=habit.id) }}" method="POST">
+                                        <input type="submit" value="&#215" class="delete-button">
+                                    </form>
+                                    <div class="habit">
+                                        {{ habit.habit_name }}
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td><span class="goal-days">{{ habit.goal_days }} days/week</span></td>
                     {% for day in ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] %}
                         {% set log = habit_tracking_data[habit.id]['logs'].get(loop.index, 0) %}
                         <td>
@@ -136,7 +149,8 @@
                            >
                         </td>
                     {% endfor %}
-                    <td class="progress habit-{{ habit.id }}-progress">{{ habit_tracking_data[habit.id]['logs']|length / habit.goal_days * 100 }}%</td>
+                    <td class="progress habit-{{ habit.id }}-progress">0%</td>
+
                 </tr>
             </tbody>
           {% endfor %}

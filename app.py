@@ -78,7 +78,6 @@ class HabitLog(db.Model):
     checked = db.Column(db.Boolean, nullable=False)
     progress = db.Column(db.Integer, nullable=False)
 
-
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), nullable=False)
@@ -87,7 +86,8 @@ class Task(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('tasks', lazy=True))
 
-
+with app.app_context():
+    db.create_all()
 
 @app.route('/')
 def home():
@@ -309,6 +309,17 @@ def delete_task(id):
     db.session.delete(task)
     db.session.commit()
     return redirect(url_for('home'))
+
+@app.route('/delete_habit/<int:habit_id>', methods=['POST'])
+def delete_habit(habit_id):
+    habit = Habit.query.get(habit_id)
+    if habit:
+        HabitLog.query.filter_by(habit_id=habit.id).delete()
+        db.session.delete(habit)
+        db.session.commit()
+    return redirect(url_for('home'))
+
+
 
 if __name__ == "__main__":
     app.run(port=8000, debug=True)
