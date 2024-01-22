@@ -65,7 +65,7 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
     profile_pic = db.Column(db.String(120), nullable=True)
-
+    
 class Habit(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     habit_name = db.Column(db.String(100), nullable=False)
@@ -101,8 +101,6 @@ def home():
 
     user_id = session['user_id']
     user = User.query.get(user_id)
-    profile_pic_url = url_for('static', filename='profile/profilepics' + user.profile_pic)
-    
     if user:
         # Generate calendar data
         calendar_data = generate_calendar_data()
@@ -153,7 +151,7 @@ def home():
         tasks_today = Task.query.filter_by(user_id=user.id, day=today).all()
         tasks_remaining = Task.query.filter(Task.user_id == user.id, Task.day > today).all()
 
-        return render_template('index.html', user=user, profile_pic_url='profile/profilepics', calendar_data=calendar_data,
+        return render_template('index.html', user=user, calendar_data=calendar_data,
                                formatted_date=formatted_date, current_year=current_year, username=user.username,
                                habits=habits, habit_tracking_data=habit_tracking_data, checkbox_states=checkbox_states,
                                tasks=tasks, tasks_today=tasks_today, tasks_remaining=tasks_remaining, week_of_year=week_of_year)
@@ -361,37 +359,6 @@ def delete_habit(habit_id):
         db.session.commit()
     return redirect(url_for('home'))
 
-UPLOAD_FOLDER = 'profile/profilepics'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-@app.route('/upload_profile_pic', methods=['POST'])
-def upload_profile_pic():
-    if 'profile_pic' not in request.files:
-        flash('No file part')
-        return redirect(request.url)
-    file = request.files['profile_pic']
-    if file.filename == '':
-        flash('No selected file')
-        return redirect(request.url)
-    if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
-        # Update user's profile picture in database
-        user_id = session['user_id']
-        user = User.query.get(user_id)
-        user.profile_pic = filename
-        db.session.commit()
-
-        return redirect(url_for('profile'))
-
-    return redirect(request.url)
-
 @app.route('/change_password', methods=['POST'])
 def change_password():
     old_password = request.form['old_password']
@@ -407,6 +374,21 @@ def change_password():
     else:
         flash('Incorrect old password.')
 
+    return redirect(url_for('profile'))
+
+@app.route('/upload_profile_pic', methods=['POST'])
+def upload_profile_pic():
+    user_id = session.get('user_id')
+    if user_id:
+        user = User.query.get(user_id)
+        file = request.files.get('profile_pic')
+        if file and file.filename != '':
+            filename = secure_filename(file.filename)
+            filepath = os.path.join(app.root_path, 'static/profile', filename)
+            file.save(filepath)
+            user.profile_pic = filename
+            db.session.commit()
+            flash('Profile picture updated successfully!')
     return redirect(url_for('profile'))
 
 @app.route('/profile')

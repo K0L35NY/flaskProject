@@ -6,6 +6,7 @@
         #date {
             font-family: 'SFR', sans-serif;
             font-size: 50pt;
+            margin-top: 50px;
         }
 
         .formatted-date {
@@ -52,6 +53,7 @@
             display: flex;
             flex-direction: column;
             text-align: right;
+            margin-top: 80px;
         }
 
         .name .weekend {
@@ -589,9 +591,36 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
         
-        .profile-picture {
-            width: 100px; 
-            height: 100px;
+        .profile-pic-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        img.profile-pic {
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             object-fit: cover;
+        }
+
+        .flash-messages {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            width: auto;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .alert {
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+            background-color: green;
+            display: inline-block;
         }

@@ -23,7 +23,11 @@
         <div id="account">
             {% if username %}
             <span class="username">Welcome, {{ username }}!</span>
-            <img src="{{ profile_pic_url }}" alt="Profile Picture" class="profile-picture">
+        <div class="profile-pic-container">
+            {% if user.profile_pic %}
+                <img src="{{ url_for('static', filename='profile/' + user.profile_pic) }}" alt="Profile Picture" class="profile-pic">
+            {% endif %}
+        </div>
             <a href="/profile" class="profile-button">Profile</a>
             <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
             {% endif %}
@@ -31,6 +35,14 @@
         </div>
     </div>
     
+    {#  Error message if the fields are not filled   #}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 
     
     <div id="calendar">
@@ -71,14 +83,7 @@
             <input type="submit" value="Add Task" class="tasks-button">
         </form>
 
-        {#  Error message if the fields are not filled   #}
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+
     </div>
 
     <div class="task-container">

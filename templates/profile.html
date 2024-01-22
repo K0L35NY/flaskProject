@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <form action="{{ url_for('upload_profile_pic') }}" method="post" enctype="multipart/form-data">
-        <label for="profile_pic">Profile Picture:</label>
-        <input type="file" name="profile_pic" id="profile_pic" required>
-        <input type="submit" value="Upload">
-    </form>
 
+    <form action="{{ url_for('upload_profile_pic') }}" method="post" enctype="multipart/form-data">
+    <input type="file" name="profile_pic" accept="image/*">
+    <input type="submit" value="Upload Image">
+    </form>
+    
     <form action="{{ url_for('change_password') }}" method="post">
         <input type="password" name="old_password" placeholder="Old Password" required>
         <input type="password" name="new_password" placeholder="New Password" required>
