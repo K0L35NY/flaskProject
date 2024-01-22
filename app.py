@@ -313,21 +313,21 @@ def add_task():
     db.session.commit()
     return redirect(url_for('home'))
 
-@app.route('/edit_task/<int:id>', methods=['POST'])
-def edit_task(id):
-    task = Task.query.get(id)
-
-    task.title = request.form['title']
-    task.description = request.form['description']
-    task.day = request.form['day']
-
-    title = task.title
-    description = task.description
-    day = task.day
-
-    if not title or not description or not day:
-        flash('*You need to fill all the fields', 'error')
-        return redirect(url_for('home'))
+# @app.route('/edit_task/<int:id>', methods=['POST'])
+# def edit_task(id):
+#     task = Task.query.get(id)
+#
+#     task.title = request.form['title']
+#     task.description = request.form['description']
+#     task.day = request.form['day']
+#
+#     title = task.title
+#     description = task.description
+#     day = task.day
+#
+#     if not title or not description or not day:
+#         flash('*You need to fill all the fields', 'error')
+#         return redirect(url_for('home'))
 
 
 
