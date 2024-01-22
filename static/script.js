@@ -82,3 +82,18 @@ document.addEventListener("DOMContentLoaded", function () {
     updateProgress();
 
 });
+
+function toggleDarkMode() {
+    const body = document.body;
+    body.classList.toggle('dark-mode');
+
+    // Save preference in localStorage
+    localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+}
+
+// Load user preference on page load
+document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+});

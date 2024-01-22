@@ -447,3 +447,16 @@
             font-family: 'SFR', sans-serif;
             font-size: 35pt;
         }
+
+        .dark-mode {
+            background-color: #121212; /* Dark background */
+            color: #ffffff; /* Light text */
+        }
+        
+        .dark-mode .task-container, .dark-mode .tracker-container {
+            background-color: #1e1e1e; /* Slightly lighter background for sections */
+        }
+        
+        .dark-mode a, .dark-mode .task-title, .dark-mode .habit {
+            color: #ffffff; /* Ensuring links and titles are visible */
+        }
