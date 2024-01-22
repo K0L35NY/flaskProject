@@ -3,6 +3,7 @@
             src: url('../static/fonts/SF-Pro-Display-Regular.otf') format('opentype');
         }
 
+
         #date {
             font-family: 'SFR', sans-serif;
             font-size: 50pt;
@@ -401,3 +402,4 @@
             border-radius: 8px;
             cursor: pointer;
         }
+

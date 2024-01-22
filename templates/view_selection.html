@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Selection</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/style_login.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <h2 class="text-center">View Selection</h2>
+                <form method="POST" action="{{ url_for('view_selection') }}">
+                    <div class="form-group">
+                        <label for="choice">Choose an option:</label>
+                        <select id="choice" name="choice" class="form-control" required>
+                            <option value="habit_tracker">Habit Tracker</option>
+                            <option value="calendar">Calendar</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Continue</button>
+                </form>
+                <div class="text-center">
+                    <a href="{{ url_for('login') }}" class="btn btn-link">Back to Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
