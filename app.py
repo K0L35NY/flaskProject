@@ -102,6 +102,13 @@ def home():
         # Generate calendar data
         calendar_data = generate_calendar_data()
 
+        # Get the current week of the year
+        now = datetime.datetime.now()
+        week_of_year = now.strftime("%V")
+
+        # Ensure it's always a 2-digit number
+        week_of_year = week_of_year.zfill(2)
+
         # Get habits for the user
         habits = Habit.query.filter_by(user_id=user.id).all()
 
@@ -137,7 +144,7 @@ def home():
         return render_template('index.html', user=user, calendar_data=calendar_data,
                                formatted_date=formatted_date, current_year=current_year, username=user.username,
                                habits=habits, habit_tracking_data=habit_tracking_data, checkbox_states=checkbox_states,
-                               tasks=tasks, tasks_today=tasks_today, tasks_remaining=tasks_remaining)
+                               tasks=tasks, tasks_today=tasks_today, tasks_remaining=tasks_remaining, week_of_year=week_of_year)
     else:
         # Invalid session, redirect to login
         return redirect(url_for('login'))

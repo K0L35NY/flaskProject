@@ -106,7 +106,10 @@
 
     <div class="tracker-container">
         <header>
-            <h1>Track your 1st week</h1>
+            <div id="weektitle">
+                <span class="formatted-date">Track your week</span>
+                <span class="current-year">{{ week_of_year }}</span>
+            </div>
             <button class="addHabitButton">Add Habit</button>
         </header>
         <table class="habit-tracker">
@@ -117,7 +120,7 @@
                 {% for day in ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] %}
                   <th>{{ day }}</th>
                 {% endfor %}
-                <th>Progress</th>
+                <th class="progressColumn">Progress</th>
               </tr>
             </thead>
             <tbody>
@@ -137,10 +140,10 @@
                             </tr>
                         </table>
                     </td>
-                    <td><span class="goal-days">{{ habit.goal_days }} days/week</span></td>
+                    <td class="goalColumn"><span class="goal-days">{{ habit.goal_days }} days/week</span></td>
                     {% for day in ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] %}
                         {% set log = habit_tracking_data[habit.id]['logs'].get(loop.index, 0) %}
-                        <td>
+                        <td class="checkboxColumn">
                            <input
                                type="checkbox"
                                data-habit-id="{{ habit.id }}"

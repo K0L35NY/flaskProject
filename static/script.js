@@ -58,8 +58,27 @@ document.addEventListener("DOMContentLoaded", function () {
             habitModal.style.display = "none";
         }
     });
+    // habit goal color coding
+    let colors = {
+        1: '#D1BDFF',
+        2: '#E2CBF7',
+        3: '#D6F6FF',
+        4: '##B3F5BC',
+        5: '#F9FFB5',
+        6: '#FCAE7C',
+        7: '#FA9189'
+    };
 
+    // Get all .goal-days elements
+    let elements = document.querySelectorAll('.goal-days');
 
+    elements.forEach(element => {
+        // Extract the number from the element's text content
+        let habitGoalDays = parseInt(element.textContent.trim().split(' ')[0]);
+
+        // Set the background color based on the habit.goal_days value
+        element.style.backgroundColor = colors[habitGoalDays];
+    });
     updateProgress();
 
 });
