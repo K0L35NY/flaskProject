@@ -5,6 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash, check_password_hash
 import calendar
 import datetime
+
 app = Flask(__name__, static_folder="static")
 app.secret_key = "klucz_tajny"
 
@@ -134,7 +135,6 @@ def home():
         current_year = f"{now.strftime('%Y')}"
         checkbox_states = get_checkbox_states(user.id)
 
-
         # Relevant things
         tasks = Task.query.filter_by(user_id=user.id).all()
         today = datetime.datetime.today().date()
@@ -148,7 +148,6 @@ def home():
     else:
         # Invalid session, redirect to login
         return redirect(url_for('login'))
-
 def get_checkbox_states(user_id):
     checkbox_states = {}
     habit_logs = HabitLog.query.join(Habit).filter(Habit.user_id == user_id).all()
@@ -157,6 +156,8 @@ def get_checkbox_states(user_id):
         checkbox_states[(log.habit_id, log.day_index)] = log.checked
 
     return checkbox_states
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
@@ -170,7 +171,9 @@ def login():
         if user and check_password_hash(user.password, password):
             # Store user_id in session to indicate user is logged in
             session['user_id'] = user.id
-            return redirect(url_for('home', username=user.username))
+
+            # Redirect to the view_selection page after successful login
+            return redirect(url_for('view_selection'))
         else:
             # If no matching user found, show an error message
             error = 'Invalid username or password.'
@@ -178,6 +181,24 @@ def login():
 
     # If it's a GET request or login failed, render the login form
     return render_template('login.html', error=error)
+
+
+@app.route('/view_selection', methods=['GET', 'POST'])
+def view_selection():
+    if 'user_id' not in session:
+        # Redirect to the login page if the user is not logged in
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        choice = request.form.get('choice', '')
+        if choice == 'calendar':
+            # Redirect to the top of the index page
+            return redirect(url_for('home', _anchor='top-anchor'))
+        elif choice == 'habit_tracker':
+            # Redirect to the bottom of the index page
+            return redirect(url_for('home', _anchor='bottom-anchor'))
+
+    return render_template('view_selection.html')
 
 
 @app.route('/logout')

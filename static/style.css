@@ -136,7 +136,7 @@
 
         #habit-tracker {
             width: 100%;
-            max-width: 500px;
+            max-width: 800px;
             margin: 20px auto;
             padding: 20px;
             background-color: #f5f5f5;
@@ -152,20 +152,12 @@
         }
 
         .tracker-container {
-            max-width: 1200px;
             width: 80%;
             margin: 40px auto;
             background-color: #fff;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 20px;
             box-sizing: border-box;
-        }
-
-        @media screen and (max-width: 785px) {
-            .tracker-container {
-                margin: 0;
-                padding: 0;
-            }
         }
 
         header h1 {
@@ -187,10 +179,9 @@
             background-color: #f9f9f9;
             color: #333;
             padding: 10px;
-            /*text-align: left;*/
+            text-align: left;
         }
 
-        .progress td,
         .habit-tracker th,
         .habit-tracker td {
             border: 1px solid #ddd;
@@ -207,8 +198,8 @@
         }
 
         .progress {
-            width: 25px;
-            height: 25px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             background-color: #eff8eb;
             display: flex;
@@ -216,17 +207,7 @@
             justify-content: center;
             font-weight: bold;
             color: #4CAF50;
-            margin: 20px;
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-
-        .progressColumn {
-            width: 50px;
-        }
-
-        .checkboxColumn {
-            width: 55px;
+            margin: auto;
         }
 
         .addHabitButton {
@@ -420,7 +401,6 @@
             border-radius: 8px;
             cursor: pointer;
         }
-
 
         .delete-button {
             background-color: #ff0000;
