@@ -5,6 +5,8 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash, check_password_hash
 import calendar
 import datetime
+from werkzeug.utils import secure_filename
+import os
 
 app = Flask(__name__, static_folder="static")
 app.secret_key = "klucz_tajny"
@@ -62,6 +64,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
+    profile_pic = db.Column(db.String(120), nullable=True)
 
 class Habit(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -347,7 +350,62 @@ def delete_habit(habit_id):
         db.session.commit()
     return redirect(url_for('home'))
 
+UPLOAD_FOLDER = 'profile/profilepics'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/upload_profile_pic', methods=['POST'])
+def upload_profile_pic():
+    if 'profile_pic' not in request.files:
+        flash('No file part')
+        return redirect(request.url)
+    file = request.files['profile_pic']
+    if file.filename == '':
+        flash('No selected file')
+        return redirect(request.url)
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        # Update user's profile picture in database
+        user_id = session['user_id']
+        user = User.query.get(user_id)
+        user.profile_pic = filename
+        db.session.commit()
+
+        return redirect(url_for('profile'))
+
+    return redirect(request.url)
+
+@app.route('/change_password', methods=['POST'])
+def change_password():
+    old_password = request.form['old_password']
+    new_password = request.form['new_password']
+    user_id = session['user_id']
+    user = User.query.get(user_id)
+
+    if user and check_password_hash(user.password, old_password):
+        hashed_password = generate_password_hash(new_password, method='pbkdf2:sha256')
+        user.password = hashed_password
+        db.session.commit()
+        flash('Password successfully changed!')
+    else:
+        flash('Incorrect old password.')
+
+    return redirect(url_for('profile'))
+
+@app.route('/profile')
+def profile():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+    user = User.query.get(user_id)
+    return render_template('profile.html', user=user)
 
 if __name__ == "__main__":
     app.run(port=8000, debug=True)

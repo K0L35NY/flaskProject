@@ -23,9 +23,10 @@
         <div id="account">
             {% if username %}
             <span class="username">Welcome, {{ username }}!</span>
+            <a href="/profile" class="profile-button">Profile</a>
             <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
             {% endif %}
-        <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+            <button class="toggle-dark-mode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
         </div>
     </div>
     

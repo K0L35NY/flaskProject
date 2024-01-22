@@ -1,0 +1,18 @@
+<!-- profile.html -->
+{% extends "base.html" %}  <!-- Assuming you have a base template -->
+
+{% block content %}
+    <!-- Profile Picture Upload -->
+    <form action="{{ url_for('upload_profile_pic') }}" method="post" enctype="multipart/form-data">
+        <label for="profile_pic">Profile Picture:</label>
+        <input type="file" name="profile_pic" id="profile_pic" required>
+        <input type="submit" value="Upload">
+    </form>
+
+    <!-- Change Password -->
+    <form action="{{ url_for('change_password') }}" method="post">
+        <input type="password" name="old_password" placeholder="Old Password" required>
+        <input type="password" name="new_password" placeholder="New Password" required>
+        <input type="submit" value="Change Password">
+    </form>
+{% endblock %}

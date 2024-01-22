@@ -1,0 +1,104 @@
+* {
+    box-sizing: border-box;
+    font-family: 'SFR', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+}
+
+nav {
+    background-color: #444;
+    color: #fff;
+    padding: 0.5rem 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav a {
+    color: #fff;
+    margin: 0 10px;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+nav a:hover, nav a:focus {
+    background-color: #28a745;
+}
+
+main {
+    padding: 20px;
+    background-color: #fff;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+    position: relative;
+}
+
+button, .button {
+    background-color: #28a745;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover, .button:hover {
+    background-color: #1e7e34;
+}
+
+input[type="text"], input[type="password"], input[type="email"], select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+input[type="submit"] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+@media screen and (max-width: 768px) {
+    nav {
+        flex-direction: column;
+    }
+}
