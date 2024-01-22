@@ -547,6 +547,15 @@
         .dark-mode .addHabitButton:hover, .dark-mode .habit-tracker .delete-button:hover {
             background-color: #555555;
         }
+        .dark-mode .modal-content {
+            background-color: #2c2c2c;
+            color: #ddd;
+        }
+        
+        .dark-mode .modal-content label {
+            color: #ddd;
+        }
+        
         .toggle-dark-mode {
             background-color: #28a745;
             color: white;
