@@ -23,10 +23,11 @@
         <div id="account">
             {% if username %}
             <span class="username">Welcome, {{ username }}!</span>
+            <img src="{{ profile_pic_url }}" alt="Profile Picture" class="profile-picture">
             <a href="/profile" class="profile-button">Profile</a>
             <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
             {% endif %}
-            <button class="toggle-dark-mode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+            <button class="toggle-dark-mode" onclick="toggleDarkMode()">Dark/Light Mode</button>
         </div>
     </div>
     

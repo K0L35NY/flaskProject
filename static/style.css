@@ -555,7 +555,9 @@
         .dark-mode .modal-content label {
             color: #ddd;
         }
-        
+        .dark-mode .username {
+            color: white;
+        }
         .toggle-dark-mode {
             background-color: #28a745;
             color: white;
@@ -587,3 +589,9 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
         
+        .profile-picture {
+            width: 100px; 
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+        }

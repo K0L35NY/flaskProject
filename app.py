@@ -101,7 +101,8 @@ def home():
 
     user_id = session['user_id']
     user = User.query.get(user_id)
-
+    profile_pic_url = url_for('static', filename='profile/profilepics' + user.profile_pic)
+    
     if user:
         # Generate calendar data
         calendar_data = generate_calendar_data()
@@ -112,6 +113,14 @@ def home():
 
         # Ensure it's always a 2-digit number
         week_of_year = week_of_year.zfill(2)
+
+    if user:
+        # Generate calendar data
+        calendar_data = generate_calendar_data()
+
+        # Get the current week of the year
+        now = datetime.datetime.now()
+        week_of_year = now.strftime("%V")
 
         # Get habits for the user
         habits = Habit.query.filter_by(user_id=user.id).all()
@@ -144,13 +153,15 @@ def home():
         tasks_today = Task.query.filter_by(user_id=user.id, day=today).all()
         tasks_remaining = Task.query.filter(Task.user_id == user.id, Task.day > today).all()
 
-        return render_template('index.html', user=user, calendar_data=calendar_data,
+        return render_template('index.html', user=user, profile_pic_url='profile/profilepics', calendar_data=calendar_data,
                                formatted_date=formatted_date, current_year=current_year, username=user.username,
                                habits=habits, habit_tracking_data=habit_tracking_data, checkbox_states=checkbox_states,
                                tasks=tasks, tasks_today=tasks_today, tasks_remaining=tasks_remaining, week_of_year=week_of_year)
     else:
         # Invalid session, redirect to login
         return redirect(url_for('login'))
+
+
 def get_checkbox_states(user_id):
     checkbox_states = {}
     habit_logs = HabitLog.query.join(Habit).filter(Habit.user_id == user_id).all()

@@ -4,32 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BetterToDo</title>
-    <!-- CSS links -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style_profile.css') }}">
-    <!-- Additional CSS or JS files -->
 </head>
 <body>
     <header>
-        <!-- Navigation bar, logo, etc. -->
     </header>
 
     <nav>
-        <!-- Navigation links (you can use url_for to create links to different routes) -->
         <a href="{{ url_for('home') }}">Home</a>
-        <!-- Add more navigation links as needed -->
     </nav>
 
     <main>
         {% block content %}
-        <!-- This block will be overridden by child templates -->
         {% endblock %}
     </main>
 
     <footer>
-        <!-- Footer content -->
     </footer>
 
-    <!-- JavaScript files -->
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
