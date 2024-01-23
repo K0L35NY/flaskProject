@@ -83,17 +83,42 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-function toggleDarkMode() {
-    const body = document.body;
-    body.classList.toggle('dark-mode');
+    function toggleDarkMode() {
+        const body = document.body;
+        body.classList.toggle('dark-mode');
 
-    // Save preference in localStorage
-    localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
-}
-
-// Load user preference on page load
-document.addEventListener('DOMContentLoaded', () => {
-    if (localStorage.getItem('darkMode') === 'true') {
-        document.body.classList.add('dark-mode');
+        // Save preference in localStorage
+        localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
     }
+
+    // Load user preference on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+        }
+});
+
+    window.onload = function() {
+        // Initially hide the to-do container
+        document.getElementById('to-do-container').style.display = 'none';
+
+        // Get all elements with class="day"
+        var days = document.getElementsByClassName('day');
+
+        // Attach a click event handler to each day
+        for (var i = 0; i < days.length; i++) {
+            days[i].addEventListener('click', function() {
+                // Hide the calendar
+                document.getElementById('calendar').style.display = 'none';
+                // Show the to-do container
+                document.getElementById('to-do-container').style.display = 'block';
+            });
+        }
+};
+
+    document.getElementById('back-button').addEventListener('click', function() {
+        // Show the calendar
+        document.getElementById('calendar').style.display = 'block';
+        // Hide the to-do container
+        document.getElementById('to-do-container').style.display = 'none';
 });

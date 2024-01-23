@@ -23,15 +23,15 @@
         <div id="account">
             {% if username %}
             <span class="username">Welcome, {{ username }}!</span>
-        <div class="profile-pic-container">
-            {% if user.profile_pic %}
-                <img src="{{ url_for('static', filename='profile/' + user.profile_pic) }}" alt="Profile Picture" class="profile-pic">
-            {% endif %}
-        </div>
             <a href="/profile" class="profile-button">Profile</a>
             <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
             {% endif %}
             <button class="toggle-dark-mode" onclick="toggleDarkMode()">Dark/Light Mode</button>
+            <div class="profile-pic-container">
+                {% if user.profile_pic %}
+                    <img src="{{ url_for('static', filename='profile/' + user.profile_pic) }}" alt="Profile Picture" class="profile-pic">
+                {% endif %}
+            </div>
         </div>
     </div>
     
@@ -71,51 +71,54 @@
             {% endfor %}
         </div>
     </div>
-
-    <div class="to-do">
-        <div class="to-do-head">
-            <h1>ToDo</h1>
-        </div>
-        <form method="POST" action="/add_task">
-            <input type="text" name="title" placeholder="Title" class="field">
-            <input type="text" name="description" placeholder="Description" class="field">
-            <input type="date" name="day" class="field">
-            <input type="submit" value="Add Task" class="tasks-button">
-        </form>
-
-
-    </div>
-
-    <div class="task-container">
-        <div class="t-tasks">
-            <div class="t-tasks-header">
-                <h2>Today's Tasks</h2>
+    <div id="to-do-container">
+        <button id="back-button" style="position: flex; top: 0; left: 0; margin: 20px;">&lt; Back</button>
+        <div class="to-do">
+            <div class="to-do-head">
+                <h1>Add your task</h1>
             </div>
-            {% for task in tasks_today %}
-                <div class="tasks">
-                    <p class="task-title">{{ task.title }}</p>
-                    <p class="task-d">{{ task.description }}</p>
-{#                    <button type="button" class="tasks-button">Edit task</button>#}
-                    <button type="button" class="tasks-button" onclick="location.href='/delete_task/{{ task.id }}'">Delete</button>
-                </div>
-            {% endfor %}
+            <form method="POST" action="/add_task">
+                <input type="text" name="title" placeholder="Title" class="field">
+                <input type="date" name="day" class="datefield">
+                <br>
+                <input type="text" name="description" placeholder="Description" class="description">
+                <br>
+                <input type="submit" value="Add Task" class="tasks-button">
+            </form>
+
+
         </div>
-        <div class="r-tasks">
-            <div class="r-tasks-header">
-                <h2>Remaining Tasks</h2>
-            </div>
-            {% for task in tasks_remaining %}
-                <div class="tasks">
-                    <p class="task-day">{{ task.day }}</p>
-                    <p class="task-title">{{ task.title }} </p>
-                    <p class="task-d">{{ task.description }}</p>
-{#                    <button type="button" class="tasks-button">Edit task</button>#}
-                    <button type="button" class="tasks-button" onclick="location.href='/delete_task/{{ task.id }}'">Delete</button>
+
+        <div class="task-container">
+            <div class="t-tasks">
+                <div class="t-tasks-header">
+                    <h2>Today's Tasks</h2>
                 </div>
-            {% endfor %}
+                {% for task in tasks_today %}
+                    <div class="tasks">
+                        <p class="task-title">{{ task.title }}</p>
+                        <p class="task-d">{{ task.description }}</p>
+    {#                    <button type="button" class="tasks-button">Edit task</button>#}
+                        <button type="button" class="tasks-button" onclick="location.href='/delete_task/{{ task.id }}'">Delete</button>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="r-tasks">
+                <div class="r-tasks-header">
+                    <h2>Remaining Tasks</h2>
+                </div>
+                {% for task in tasks_remaining %}
+                    <div class="tasks">
+                        <p class="task-day">{{ task.day }}</p>
+                        <p class="task-title">{{ task.title }} </p>
+                        <p class="task-d">{{ task.description }}</p>
+    {#                    <button type="button" class="tasks-button">Edit task</button>#}
+                        <button type="button" class="tasks-button" onclick="location.href='/delete_task/{{ task.id }}'">Delete</button>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
-
     <a id="bottom-anchor"></a>
 
     <div class="tracker-container">

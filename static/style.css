@@ -39,21 +39,12 @@
             margin-right: 10px;
         }
 
-        .logout-button {
-            text-decoration: none;
-            background-color: #28a745;
-            color: #fff;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-        }
         #calendar {
             width: 100%;
             display: flex;
             flex-direction: column;
             text-align: right;
-            margin-top: 80px;
+            margin-top: 10px;
         }
 
         .name .weekend {
@@ -225,6 +216,20 @@
             cursor: pointer;
         }
 
+        /*#back-button {
+            position: flex;
+            top: 20px;
+            left: 20px;
+            align: left;
+            text-decoration: none;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }*/
+
         #addHabitModal {
             display: none; /* Initially hide the modal */
             position: fixed;
@@ -266,34 +271,61 @@
         }
 
         .to-do-head {
-            text-align: center;
+            /*text-align: center;
             background-color: #4ad065;
             color: white;
             /*margin-right: 40%;*/
             /*margin-left: 40%;*/
-            border: none;
+            /*border: none;
             border-radius: 8px;
             border-bottom-left-radius: 0px;
             border-bottom-right-radius: 0px;
             font-size: 30px;
-            margin-bottom: 10px;
+            margin-bottom: 10px;*/
+            font-family: 'SFR', sans-serif;
+            font-size: 15pt;
         }
 
         .to-do {
-            text-align: center;
+            /*text-align: center;
             background-color: #dfeae7;
-            margin-right: 35%;
-            margin-left: 35%;
+            margin-right: 15%;
+            margin-left: 15%;
             border: none;
             border-radius: 8px;
-            margin-bottom: 40px;
+            margin-bottom: 40px;*/
+            text-align: center;
+            width: 80%;
+            margin: 40px auto;
+            background-color: #fff;
+            /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
+            padding: 20px;
+            box-sizing: border-box;
+            border: none;
+            border-radius: 8px;
 
         }
 
         .to-do form {
-            display: flex;
-            flex-direction: column;
+            /*display: flex;*/
+            flex-direction: row;
             align-items: center;
+        }
+
+        .description {
+            box-sizing: border-box;
+            width: 30.4%;
+            padding:10px;
+            border:0;
+            box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+        }
+
+        .datefield {
+            box-sizing: border-box;
+            width: 10%;
+            padding:8px;
+            border:0;
+            box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
         }
 
         .field {
@@ -301,10 +333,11 @@
             padding:10px;
             border:0;
             box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
-            width: 50%;
+            width: 20%;
+            martgin-right: 15px;
         }
 
-        .to-do .field {
+        .to-do, .field, .datefield, .field{
             margin-bottom: 10px;
         }
 
@@ -410,7 +443,7 @@
             padding: 8px 16px;
             border-radius: 8px;
             cursor: pointer;
-            margin-bottom: 10px;
+            margin: 10px;
         }
 
         .delete-button {
@@ -560,23 +593,11 @@
         .dark-mode .username {
             color: white;
         }
-        .toggle-dark-mode {
+        
+        .logout-button, .profile-button, .toggle-dark-mode, #back-button{
             background-color: #28a745;
             color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-            margin: 10px 0;
-            outline: none;
-        }
-        
-        .profile-button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
+            padding: 8px 16px;
             border: none;
             border-radius: 8px;
             cursor: pointer;
@@ -585,8 +606,9 @@
             font-size: 1rem;
             text-decoration: none;
         }
+
         
-        .profile-button:hover {
+        .profile-button:hover, .logout-button:hover, .toggle-dark-mode:hover, #back-button:hover {
             background-color: #3c8d40;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
