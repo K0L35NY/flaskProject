@@ -159,7 +159,7 @@ def home():
         # Invalid session, redirect to login
         return redirect(url_for('login'))
 
-
+#Comment
 def get_checkbox_states(user_id):
     checkbox_states = {}
     habit_logs = HabitLog.query.join(Habit).filter(Habit.user_id == user_id).all()
