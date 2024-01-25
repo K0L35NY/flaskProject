@@ -40,7 +40,7 @@ def generate_calendar_data(year=None, month=None):
     calendar_grid += [None] * trailing_empty_cells
 
     # Reshape the calendar grid into a 2D list with 7 columns
-    calendar_grid_2d = [calendar_grid[i:i+7] for i in range(0, len(calendar_grid), 7)]
+    calendar_grid_2d = [calendar_grid[i:i + 7] for i in range(0, len(calendar_grid), 7)]
 
     # Create a dictionary with relevant calendar data
     calendar_data = {
@@ -65,13 +65,15 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
     profile_pic = db.Column(db.String(120), nullable=True)
-    
+
+
 class Habit(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     habit_name = db.Column(db.String(100), nullable=False)
     goal_days = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('habits', lazy=True))
+
 
 class HabitLog(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -82,6 +84,7 @@ class HabitLog(db.Model):
     checked = db.Column(db.Boolean, nullable=False)
     progress = db.Column(db.Integer, nullable=False)
 
+
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), nullable=False)
@@ -90,8 +93,10 @@ class Task(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('tasks', lazy=True))
 
+
 with app.app_context():
     db.create_all()
+
 
 @app.route('/')
 def home():
@@ -154,12 +159,14 @@ def home():
         return render_template('index.html', user=user, calendar_data=calendar_data,
                                formatted_date=formatted_date, current_year=current_year, username=user.username,
                                habits=habits, habit_tracking_data=habit_tracking_data, checkbox_states=checkbox_states,
-                               tasks=tasks, tasks_today=tasks_today, tasks_remaining=tasks_remaining, week_of_year=week_of_year)
+                               tasks=tasks, tasks_today=tasks_today, tasks_remaining=tasks_remaining,
+                               week_of_year=week_of_year)
     else:
         # Invalid session, redirect to login
         return redirect(url_for('login'))
 
-#Comment
+
+# Comment
 def get_checkbox_states(user_id):
     checkbox_states = {}
     habit_logs = HabitLog.query.join(Habit).filter(Habit.user_id == user_id).all()
@@ -206,9 +213,9 @@ def view_selection():
         if choice == 'calendar':
             # Redirect to the top of the index page
             return redirect(url_for('home', _anchor='top-anchor'))
-        elif choice == 'habit_tracker':
+        elif choice == 'profile':
             # Redirect to the bottom of the index page
-            return redirect(url_for('home', _anchor='bottom-anchor'))
+            return redirect(url_for('profile', _anchor='bottom-anchor'))
 
     return render_template('view_selection.html')
 
@@ -238,6 +245,7 @@ def register():
             flash('Error: This username is already used.')
     return render_template('register.html')
 
+
 @app.route('/add_habit', methods=['POST'])
 def add_habit():
     habit_name = request.form['habit_name']
@@ -251,6 +259,7 @@ def add_habit():
     db.session.commit()
 
     return redirect(url_for('home'))
+
 
 @app.route('/update_checkbox_state', methods=['GET'])
 def update_checkbox_state():
@@ -285,13 +294,16 @@ def update_checkbox_state():
 
     return jsonify({'status': 'success'})
 
+
 def calculate_progress(goal, checked_count):
     if goal == 0:
         return 0  # Avoid division by zero
     return min(100, (checked_count / goal) * 100)
 
+
 def str_to_bool(s):
     return s.lower() in ['true', '1', 'yes', 'on']
+
 
 @app.route('/get_habit_data')
 def get_habit_data():
@@ -303,6 +315,7 @@ def get_habit_data():
         return jsonify({'progress': progress})
     else:
         return jsonify({'error': 'Habit not found'}), 404
+
 
 @app.route('/add_task', methods=['POST'])
 def add_task():
@@ -317,31 +330,31 @@ def add_task():
         flash('*You need to fill all the fields', 'error')
         return redirect(url_for('home'))
 
-    task = Task(title=request.form['title'], description=request.form['description'], day=request.form['day'], user=user)
+    task = Task(title=request.form['title'], description=request.form['description'], day=request.form['day'],
+                user=user)
     db.session.add(task)
     db.session.commit()
     return redirect(url_for('home'))
 
-# @app.route('/edit_task/<int:id>', methods=['POST'])
-# def edit_task(id):
-#     task = Task.query.get(id)
-#
-#     task.title = request.form['title']
-#     task.description = request.form['description']
-#     task.day = request.form['day']
-#
-#     title = task.title
-#     description = task.description
-#     day = task.day
-#
-#     if not title or not description or not day:
-#         flash('*You need to fill all the fields', 'error')
-#         return redirect(url_for('home'))
-
-
+    # @app.route('/edit_task/<int:id>', methods=['POST'])
+    # def edit_task(id):
+    #     task = Task.query.get(id)
+    #
+    #     task.title = request.form['title']
+    #     task.description = request.form['description']
+    #     task.day = request.form['day']
+    #
+    #     title = task.title
+    #     description = task.description
+    #     day = task.day
+    #
+    #     if not title or not description or not day:
+    #         flash('*You need to fill all the fields', 'error')
+    #         return redirect(url_for('home'))
 
     db.session.commit()
     return redirect(url_for('home'))
+
 
 @app.route('/delete_task/<int:id>')
 def delete_task(id):
@@ -349,6 +362,7 @@ def delete_task(id):
     db.session.delete(task)
     db.session.commit()
     return redirect(url_for('home'))
+
 
 @app.route('/delete_habit/<int:habit_id>', methods=['POST'])
 def delete_habit(habit_id):
@@ -358,6 +372,7 @@ def delete_habit(habit_id):
         db.session.delete(habit)
         db.session.commit()
     return redirect(url_for('home'))
+
 
 @app.route('/change_password', methods=['POST'])
 def change_password():
@@ -376,6 +391,7 @@ def change_password():
 
     return redirect(url_for('profile'))
 
+
 @app.route('/upload_profile_pic', methods=['POST'])
 def upload_profile_pic():
     user_id = session.get('user_id')
@@ -391,6 +407,7 @@ def upload_profile_pic():
             flash('Profile picture updated successfully!')
     return redirect(url_for('profile'))
 
+
 @app.route('/profile')
 def profile():
     if 'user_id' not in session:
@@ -399,6 +416,7 @@ def profile():
     user_id = session['user_id']
     user = User.query.get(user_id)
     return render_template('profile.html', user=user)
+
 
 if __name__ == "__main__":
     app.run(port=8000, debug=True)
